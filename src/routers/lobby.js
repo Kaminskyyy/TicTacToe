@@ -4,7 +4,7 @@ const { Room, rooms } = require('../components/room.js');
 const router = new Router();
 
 router.post('/rooms', (req, res) => {
-	console.log(req.body);
+	//console.log(req.body);
 
 	const roomName = req.body.name.trim().toLowerCase();
 
@@ -15,7 +15,7 @@ router.post('/rooms', (req, res) => {
 	const room = new Room(req.body.name);
 	rooms.set(req.body.name, new Room(req.body.name));
 
-	console.log(rooms);
+	//console.log(rooms);
 	res.send(room);
 });
 

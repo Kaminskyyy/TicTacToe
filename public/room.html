@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Room</title>
+	</head>
+	<body>
+		<div id="info"></div>
+
+		<button id="start-game-btn">Start game</button>
+
+		<form id="turn-form">
+			<input type="text" name="turn" placeholder="Turn" required autocomplete="off" />
+			<button id="turn-btn">Make turn</button>
+		</form>
+
+		<script id="info-template" type="text/html">
+			<h1>Room: {{roomName}}</h1>
+			<p>ID: {{id}}</p>
+			<p>Players: {{players}}</p>
+		</script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/js/room.js"></script>
+	</body>
+</html>

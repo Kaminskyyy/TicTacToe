@@ -8,11 +8,11 @@ class Field {
 	}
 
 	getCell(x, y) {
-		return this._field[y][x];
+		return this._field[3 - y][x - 1];
 	}
 
 	setCell(x, y, value) {
-		this._field[y][x] = value;
+		this._field[3 - y][x - 1] = value;
 	}
 
 	getField() {
@@ -49,13 +49,21 @@ class Field {
 	}
 
 	_checkWin(id) {
-		return this.checkRow(id) || this.checkColumn(id) || this.checkDiagonal(id);
+		return this._checkRow(id) || this._checkColumn(id) || this._checkDiagonal(id);
 	}
 
 	checkGameOver(id) {
 		const fieldFull = this._field.every((row) => row.every((cell) => cell != 0));
-		const win = this.checkWin(id);
+		const win = this._checkWin(id);
 		return { over: fieldFull, id: win ? id : 0 };
+	}
+
+	resetField() {
+		this._field = [
+			[0, 0, 0],
+			[0, 0, 0],
+			[0, 0, 0],
+		];
 	}
 }
 

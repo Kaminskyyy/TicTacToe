@@ -1,5 +1,3 @@
-const socket = io();
-
 const $createUserForm = document.getElementById('create-user-form');
 const $joinRoomForm = document.getElementById('join-room-form');
 const $createRoomForm = document.getElementById('create-room-form');
@@ -36,7 +34,7 @@ $joinRoomForm.addEventListener('submit', async (event) => {
 	const username = new FormData($createUserForm).get('username');
 
 	window.location = `/room.html?room=${room}&username=${username}`;
-	updateRoomsState();	
+	updateRoomsState();
 });
 
 async function updateRoomsState() {
@@ -45,14 +43,14 @@ async function updateRoomsState() {
 		let body = await response.json();
 
 		const rooms = body.rooms.map((room) => {
-			return { 
-				name: room._name,  
+			return {
+				name: room._name,
 				players: room._playersNumber,
 			};
 		});
 
 		const html = Mustache.render(roomsTemplate, {
-			rooms
+			rooms,
 		});
 
 		document.getElementById('rooms').innerHTML = html;
