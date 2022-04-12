@@ -1,7 +1,7 @@
-const options = { cors: true };
-const io = require('socket.io')(options);
-const { Field } = require('./components/field.js');
+const { server } = require('./app.js');
+require('./socket.js');
+const port = 3000;
 
-const field = new Field();
-
-console.log(field.getField());
+server.listen(port, () => {
+	console.log('Server is up on port ' + port);
+});
