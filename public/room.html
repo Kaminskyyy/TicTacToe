@@ -4,6 +4,8 @@
 		<title>Room</title>
 	</head>
 	<body>
+		<h1 id="room-name"></h1>
+		<p id="turn-label"></p>
 		<div id="info"></div>
 
 		<button id="start-game-btn">Start game</button>
@@ -14,9 +16,11 @@
 		</form>
 
 		<script id="info-template" type="text/html">
-			<h1>Room: {{roomName}}</h1>
-			<p>ID: {{id}}</p>
-			<p>Players: {{players}}</p>
+			<ol>
+				{{#players}}
+				<li>{{username}}</li>
+				{{/players}}
+			</ol>
 		</script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>

@@ -28,6 +28,13 @@ class User {
 		return this._room;
 	}
 
+	getPublic() {
+		return {
+			name: this.originalUsername,
+			
+		}
+	}
+
 	getUser() {
 		return {
 			username: this.username,

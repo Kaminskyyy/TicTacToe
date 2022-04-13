@@ -23,15 +23,17 @@ module.exports = (io, socket, lobbyNamespace) => {
 		io.to(room.name).emit('joined', {
 			gameId: Number(room.getPlayerGameId(socket.id)),
 			username: user.originalUsername,
-			players: room.getPlayersNum(),
+			players: room.getPlayers(),
 		});
+
+		console.log(room.getPlayers());
 
 		callback(room.getPlayerGameId(socket.id));
 
 		lobbyNamespace.emit('update:rooms', rooms.public());
 	});
 
-	socket.on('startGame', (roomName) => {
+	socket.on('game:start', (roomName) => {
 		const room = rooms.get(roomName.trim().toLowerCase());
 
 		if (!room) {
@@ -46,24 +48,24 @@ module.exports = (io, socket, lobbyNamespace) => {
 			console.log(activeUser.error);
 		}
 
-		io.to(room.name).emit('startTurn', activeUser, room.field);
+		io.to(room.name).emit('game:start-turn', activeUser, room.field);
 	});
 
 	socket.on('leaveRoom', (roomName, callback) => {
 		//
 	});
 
-	socket.on('finishTurn', (turn, roomName) => {
+	socket.on('game:finish-turn', (turn, roomName) => {
 		const room = rooms.get(roomName.trim().toLowerCase());
 
 		const res = room.turn(turn);
 
 		if (res.id || res.over) {
 			room.resetGame();
-			return io.to(room.name).emit('finishGame', res);
+			return io.to(room.name).emit('game:finish', res);
 		}
 
-		io.to(room.name).emit('startTurn', room.active, room.field);
+		io.to(room.name).emit('game:start-turn', room.active, room.field);
 	});
 
 	socket.on('disconnect', () => {
@@ -72,6 +74,7 @@ module.exports = (io, socket, lobbyNamespace) => {
 			room.removeUser(socket.id);
 			room.resetGame();
 
+			io.to(room.name).emit('player:leave');
 			lobbyNamespace.emit('update:rooms', rooms.public());
 		} catch (error) {
 			console.log(error);

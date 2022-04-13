@@ -18,6 +18,6 @@ module.exports = (io, socket) => {
 	});
 
 	socket.on('disconnect', (reason) => {
-		console.log('LOBBY DISCONNNECT');
+		console.log('LOBBY DISCONNNECT', reason);
 	});
 };

@@ -50,6 +50,17 @@ class Room {
 		return this._playersNumber;
 	}
 
+	getPlayers() {
+		return [
+			{
+				username: this._players[1]?.originalUsername,
+			},
+			{
+				username: this._players[2]?.originalUsername,
+			},
+		];
+	}
+
 	addUser(user) {
 		if (this._players[1] !== null && this._players[2] !== null) return { error: 'The room is full' };
 
