@@ -33,6 +33,13 @@ class Room {
 		this._name = name.trim().toLowerCase();
 	}
 
+	get public() {
+		return {
+			name: this._name,
+			players: this._playersNumber,
+		};
+	}
+
 	getPlayerGameId(socketId) {
 		for (let key in this._players) {
 			if (this._players[key].socketId === socketId) return key;
@@ -58,13 +65,12 @@ class Room {
 		return { user, gameId: 2 };
 	}
 
-	removeUser(user) {
+	removeUser(socketId) {
 		for (let key in this._players) {
-			if (this._players[key] === user) {
-				user.room = null;
+			if (this._players[key].socketId === socketId) {
 				this._players[key] = null;
 				this._playersNumber -= 1;
-				return user;
+				return;
 			}
 		}
 
@@ -109,5 +115,9 @@ class Room {
 }
 
 const rooms = new Map();
+
+rooms.public = () => {
+	return Array.from(rooms.values()).map((room) => room.public);
+};
 
 module.exports = { Room, rooms };

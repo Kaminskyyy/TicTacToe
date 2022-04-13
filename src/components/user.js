@@ -22,7 +22,6 @@ class User {
 
 	set room(room) {
 		this._room = room?.trim().toLowerCase();
-		console.log(this._room);
 	}
 
 	get room() {

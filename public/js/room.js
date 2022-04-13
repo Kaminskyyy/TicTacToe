@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('/room');
 // Elements
 const $turnForm = document.getElementById('turn-form');
 const $startGameButton = document.getElementById('start-game-btn');
@@ -9,19 +9,17 @@ const infoTemplate = document.getElementById('info-template').innerHTML;
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
 let gameId = null;
 
-socket.emit('joinRoom', username, room, (result) => {
-	console.log(result);
-
+socket.emit('join', username, room, (result) => {
 	if (result.error) {
-		// TODO
-		// Bring user back to lobby
+		alert(result.error);
+		window.location = '/';
 	}
 });
 
 socket.on('joined', (data) => {
 	if (gameId === null && username === data.username) {
 		gameId = data.gameId;
-	}
+	} else alert(data.username + ' joined!');
 
 	const html = Mustache.render(infoTemplate, {
 		roomName: room,
@@ -31,15 +29,11 @@ socket.on('joined', (data) => {
 	document.getElementById('info').innerHTML = html;
 
 	$makeTurnButton.setAttribute('disabled', 'disabled');
-
-	console.log(data.username + ' joined');
-	console.log('gameId: ' + gameId);
 });
 
 socket.on('startTurn', (activeUser, field) => {
 	console.log(field);
-	console.log(activeUser);
-	console.log(gameId);
+	$startGameButton.setAttribute('disabled', 'disabled');
 
 	if (activeUser !== gameId) {
 		return $makeTurnButton.setAttribute('disabled', 'disabled');
@@ -60,6 +54,7 @@ socket.on('finishGame', (res) => {
 	}
 
 	$makeTurnButton.setAttribute('disabled', 'disabled');
+	$startGameButton.removeAttribute('disabled');
 });
 
 $turnForm.addEventListener('submit', (event) => {
@@ -71,7 +66,6 @@ $turnForm.addEventListener('submit', (event) => {
 	turn[1] = Number(turn[1]);
 
 	socket.emit('finishTurn', turn, room);
-	console.log('FINISH TURN');
 });
 
 $startGameButton.addEventListener('click', (event) => {

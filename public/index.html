@@ -21,14 +21,15 @@
 			<button>Join room</button>
 		</form>
 
-		<div id="rooms"></div>
-
+		<div>
+			<h2>Rooms</h2>
+			<div id="rooms"></div>
+		</div>
 
 		<script id="rooms-template" type="text/html">
-			<h2>Rooms</h2>
 			<ul>
 				{{#rooms}}
-					<li>Name: {{name}} ----- Players: {{players}}</li>
+				<li>Name: {{name}} ----- Players: {{players}}</li>
 				{{/rooms}}
 			</ul>
 		</script>

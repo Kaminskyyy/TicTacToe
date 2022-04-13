@@ -1,11 +1,11 @@
-const { User } = require('./components/user.js');
-const { rooms } = require('./components/room.js');
-const { io } = require('./app.js');
+const { User } = require('../components/user.js');
+const { rooms } = require('../components/room.js');
 
-io.on('connection', (socket) => {
-	console.log('New WebSocket connection');
+const users = new Map();
 
-	socket.on('joinRoom', (username, roomName, callback) => {
+module.exports = (io, socket, lobbyNamespace) => {
+	//
+	socket.on('join', (username, roomName, callback) => {
 		const user = new User(username, socket.id);
 		const room = rooms.get(roomName.trim().toLowerCase());
 
@@ -14,9 +14,10 @@ io.on('connection', (socket) => {
 		const result = room.addUser(user);
 
 		if (result.error) {
-			return callback({ error: 'The room is full' });
+			return callback(result.error);
 		}
 
+		users.set(socket.id, room);
 		socket.join(room.name);
 
 		io.to(room.name).emit('joined', {
@@ -25,8 +26,9 @@ io.on('connection', (socket) => {
 			players: room.getPlayersNum(),
 		});
 
-		//console.log(rooms);
 		callback(room.getPlayerGameId(socket.id));
+
+		lobbyNamespace.emit('update:rooms', rooms.public());
 	});
 
 	socket.on('startGame', (roomName) => {
@@ -65,6 +67,14 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		// delete user from room!
+		try {
+			const room = users.get(socket.id);
+			room.removeUser(socket.id);
+			room.resetGame();
+
+			lobbyNamespace.emit('update:rooms', rooms.public());
+		} catch (error) {
+			console.log(error);
+		}
 	});
-});
+};
