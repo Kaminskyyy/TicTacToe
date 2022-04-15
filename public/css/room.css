@@ -1,0 +1,27 @@
+html {
+	background-color: #011627;
+	font-family: 'Playfair Display', serif;
+	color: #fdfffc;
+	height: 100%;
+}
+
+.main-container {
+	display: grid;
+	grid-template-rows: 5fr 1fr;
+}
+
+.field {
+	display: grid;
+	grid-template-columns: repeat(3, 150px);
+	grid-template-rows: repeat(3, 150px);
+
+	margin: 50px auto;
+}
+
+.field button {
+	background-color: #011627;
+}
+
+.field button:hover {
+	background-color: #ffffff1f;
+}

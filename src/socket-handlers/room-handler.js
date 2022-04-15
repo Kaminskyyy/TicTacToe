@@ -1,10 +1,11 @@
 const { User } = require('../components/user.js');
 const { rooms } = require('../components/room.js');
 
-const users = new Map();
+// Key - socket-id
+// Value - room
+const roomsBySocketId = new Map();
 
 module.exports = (io, socket, lobbyNamespace) => {
-	//
 	socket.on('join', (username, roomName, callback) => {
 		const user = new User(username, socket.id);
 		const room = rooms.get(roomName.trim().toLowerCase());
@@ -17,46 +18,37 @@ module.exports = (io, socket, lobbyNamespace) => {
 			return callback(result.error);
 		}
 
-		users.set(socket.id, room);
+		roomsBySocketId.set(socket.id, room);
 		socket.join(room.name);
 
-		io.to(room.name).emit('joined', {
+		io.to(room.name).emit('player:join', {
 			gameId: Number(room.getPlayerGameId(socket.id)),
 			username: user.originalUsername,
 			players: room.getPlayers(),
 		});
-
-		console.log(room.getPlayers());
 
 		callback(room.getPlayerGameId(socket.id));
 
 		lobbyNamespace.emit('update:rooms', rooms.public());
 	});
 
-	socket.on('game:start', (roomName) => {
-		const room = rooms.get(roomName.trim().toLowerCase());
-
+	socket.on('game:start', () => {
+		const room = roomsBySocketId.get(socket.id);
 		if (!room) {
-			// ERROR
 			console.log('NO ROOM');
 		}
 
 		const activeUser = room.startGame();
 
 		if (activeUser.error) {
-			// ERROR
 			console.log(activeUser.error);
 		}
-
+		io.to(room.name).emit('game:start');
 		io.to(room.name).emit('game:start-turn', activeUser, room.field);
 	});
 
-	socket.on('leaveRoom', (roomName, callback) => {
-		//
-	});
-
-	socket.on('game:finish-turn', (turn, roomName) => {
-		const room = rooms.get(roomName.trim().toLowerCase());
+	socket.on('game:finish-turn', (turn) => {
+		const room = roomsBySocketId.get(socket.id);
 
 		const res = room.turn(turn);
 
@@ -70,11 +62,11 @@ module.exports = (io, socket, lobbyNamespace) => {
 
 	socket.on('disconnect', () => {
 		try {
-			const room = users.get(socket.id);
+			const room = roomsBySocketId.get(socket.id);
 			room.removeUser(socket.id);
 			room.resetGame();
 
-			io.to(room.name).emit('player:leave');
+			io.to(room.name).emit('player:leave', room.getPlayers());
 			lobbyNamespace.emit('update:rooms', rooms.public());
 		} catch (error) {
 			console.log(error);

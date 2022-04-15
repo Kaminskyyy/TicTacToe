@@ -1,0 +1,143 @@
+html {
+	background-color: #011627;
+	font-family: 'Playfair Display', serif;
+	color: #fdfffc;
+	height: 100%;
+}
+
+header {
+	height: 15%;
+	min-height: 80px;
+	padding: 20px 0px;
+
+	text-align: center;
+	font-size: 48px;
+	font-weight: 1000;
+}
+
+body {
+	min-width: 800px;
+	min-height: 600px;
+}
+
+.main-container {
+	display: grid;
+	grid-template-columns: 2fr 5fr;
+}
+
+.rooms-container {
+	text-align: center;
+}
+
+.rooms-container h2 {
+	font-size: 32px;
+	/* margin: 0 0 12px 0; */
+}
+
+li {
+	display: block;
+	width: 90%;
+	min-width: 300px;
+	height: 55px;
+
+	margin: 10px auto;
+	/* padding: 10px 10px 10px 0px; */
+	border: 1px solid rgba(255, 255, 255, 0);
+	border-radius: 30px;
+
+	text-align: left;
+	font-size: 20px;
+	font-weight: 500;
+	background-color: rgba(255, 255, 255, 0.152);
+}
+
+li span {
+	display: inline-block;
+	width: 50%;
+}
+
+.room-name {
+	padding-left: 30px;
+}
+
+.players-in-room {
+	padding-right: 30px;
+	text-align: right;
+}
+
+.username-form h3 {
+	display: block;
+	width: 300px;
+	height: 55px;
+
+	border-radius: 55px 55px 0px 0px;
+
+	margin: 50px 20px 0px 20px;
+	padding: 12px 0 0 0;
+
+	text-align: center;
+	font-size: 24px;
+
+	background-color: rgb(35, 21, 21);
+}
+
+.username-form input {
+	display: block;
+	width: 300px;
+	height: 55px;
+	border-radius: 0px 0px 55px 55px;
+
+	margin: 0px 20px 20px 20px;
+
+	font-size: 16px;
+	text-align: center;
+	background-color: #fff;
+}
+
+.create-room-form input {
+	display: block;
+	width: 300px;
+	height: 55px;
+
+	border-radius: 55px 55px 0px 0px;
+
+	margin: 50px 20px 0px 20px;
+
+	font-size: 16px;
+	text-align: center;
+}
+
+.create-room-form button {
+	display: block;
+	width: 300px;
+	height: 55px;
+
+	border-radius: 0 0 55px 55px;
+
+	margin: 0px 20px 20px 20px;
+	padding: 0 0 6px 0;
+
+	font-size: 24px;
+	color: #fff;
+	background-color: #ffffff13;
+}
+
+/* button {
+	background-color: #011627;
+	font-size: 16px;
+	color: #fdfffc;
+	font-weight: 600;
+} */
+
+button:hover {
+	background-color: rgba(252, 252, 252, 0.242);
+}
+
+li:hover {
+	background-color: rgba(252, 252, 252, 0.242);
+}
+
+li p {
+	padding: 13px;
+	pointer-events: none;
+}

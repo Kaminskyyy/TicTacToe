@@ -1,8 +1,8 @@
 const socket = io('/lobby');
 
-const $createUserForm = document.getElementById('create-user-form');
-const $joinRoomForm = document.getElementById('join-room-form');
-const $createRoomForm = document.getElementById('create-room-form');
+const $usernameForm = document.querySelector('.username-form');
+const $createRoomForm = document.querySelector('.create-room-form');
+const $roomsList = document.getElementById('rooms');
 
 // Templates
 const roomsTemplate = document.getElementById('rooms-template').innerHTML;
@@ -18,20 +18,32 @@ socket.on('update:rooms', (rooms) => {
 $createRoomForm.addEventListener('submit', async (event) => {
 	event.preventDefault();
 
-	const form = new FormData($createRoomForm);
+	const roomName = new FormData($createRoomForm).get('room');
 
-	socket.emit('create:room', form.get('room'), (result) => {
+	socket.emit('create:room', roomName, (result) => {
 		if (result.error) {
 			return alert(result.error);
 		}
+		joinRoom(roomName);
 	});
 });
 
-$joinRoomForm.addEventListener('submit', async (event) => {
+$roomsList.addEventListener('click', (event) => {
 	event.preventDefault();
 
-	const room = new FormData($joinRoomForm).get('room');
-	const username = new FormData($createUserForm).get('username');
+	const roomName = event.target.getElementsByClassName('room-name')[0].innerHTML;
 
-	window.location = `/room.html?room=${room}&username=${username}`;
+	joinRoom(roomName);
 });
+
+function joinRoom(roomName) {
+	const username = new FormData($usernameForm).get('username');
+
+	socket.emit('check-room', roomName, (result) => {
+		if (result) {
+			window.location = `/room.html?room=${roomName}&username=${username}`;
+			return;
+		}
+		alert('No such room or the room is full!');
+	});
+}

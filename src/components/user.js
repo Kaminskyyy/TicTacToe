@@ -31,8 +31,7 @@ class User {
 	getPublic() {
 		return {
 			name: this.originalUsername,
-			
-		}
+		};
 	}
 
 	getUser() {
@@ -69,17 +68,5 @@ class Users extends Map {
 		return value;
 	}
 }
-
-// const users = new Users();
-
-// users.set(22, new User('Kaminsky', 22));
-// users.set(33, new User('WhiteSpot', 33));
-// users.set(44, new User('YarushaOnFire', 44));
-
-// console.log(users);
-
-// users.delete(33);
-
-// console.log(users);
 
 module.exports = { User, Users };

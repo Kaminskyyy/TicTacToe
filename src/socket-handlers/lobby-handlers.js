@@ -17,6 +17,15 @@ module.exports = (io, socket) => {
 		callback(room.public);
 	});
 
+	socket.on('check-room', (roomName, callback) => {
+		const room = rooms.get(roomName.trim().toLowerCase());
+
+		if (!room || room.getPlayersNum() === 2) {
+			return callback(false);
+		} 
+		callback(true);
+	});
+
 	socket.on('disconnect', (reason) => {
 		console.log('LOBBY DISCONNNECT', reason);
 	});

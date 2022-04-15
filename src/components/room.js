@@ -78,7 +78,7 @@ class Room {
 
 	removeUser(socketId) {
 		for (let key in this._players) {
-			if (this._players[key].socketId === socketId) {
+			if (this._players[key]?.socketId === socketId) {
 				this._players[key] = null;
 				this._playersNumber -= 1;
 				return;
