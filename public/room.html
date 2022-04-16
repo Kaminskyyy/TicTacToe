@@ -1,25 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-		<title>Room</title>
-		<link rel="stylesheet" src="css/zeroing.css" />
-		<link rel="stylesheet" src="css/test-style.css" />
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Multiplayer Tic Tac Toe</title>
+		<link rel="stylesheet" href="/css/zeroing.css" />
+		<link rel="stylesheet" href="/css/room.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet" />
 	</head>
 	<body>
-		<h1 id="room-name"></h1>
-		<p id="turn-label"></p>
-		<div id="info"></div>
+		<header>
+			<h1 id="room-name"></h1>
+		</header>
+		<div id="turn-label">It`s your turn</div>
+		<div class="main-container">
+			<div class="field">
+				<button class="cell" id="cell-1" onclick="turn(1, 3)"></button>
+				<button class="cell" id="cell-2" onclick="turn(2, 3)"></button>
+				<button class="cell" id="cell-3" onclick="turn(3, 3)"></button>
+				<button class="cell" id="cell-4" onclick="turn(1, 2)"></button>
+				<button class="cell" id="cell-5" onclick="turn(2, 2)"></button>
+				<button class="cell" id="cell-6" onclick="turn(3, 2)"></button>
+				<button class="cell" id="cell-7" onclick="turn(1, 1)"></button>
+				<button class="cell" id="cell-8" onclick="turn(2, 1)"></button>
+				<button class="cell" id="cell-9" onclick="turn(3, 1)"></button>
+			</div>
 
-		<button id="start-game-btn">Start game</button>
+			<div class="stats">
+				<div class="players-label"></div>
 
-		<form id="turn-form">
-			<input type="text" name="turn" placeholder="Turn" required autocomplete="off" />
-			<button id="turn-btn">Make turn</button>
-		</form>
+				<div class="buttons">
+					<button id="start-game-btn">start</button>
+					<button id="leave-room-btn">leave</button>
+				</div>
+			</div>
+		</div>
 
-		<button id="leave-room-btn">Leave room</button>
-
-		<script id="info-template" type="text/html">
+		<script id="players-label-template" type="text/html">
 			<ol>
 				{{#players}}
 				<li>{{username}}</li>
@@ -29,7 +49,7 @@
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="/js/room.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+		<script src="../js/room.js"></script>
 	</body>
 </html>

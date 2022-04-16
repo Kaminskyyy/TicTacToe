@@ -27,11 +27,14 @@ body {
 
 .rooms-container {
 	text-align: center;
+	max-width: 70%;
+	min-width: 350px;
 }
 
 .rooms-container h2 {
 	font-size: 32px;
-	/* margin: 0 0 12px 0; */
+	text-align: left;
+	margin: 0 0 0 50px;
 }
 
 li {
@@ -49,6 +52,22 @@ li {
 	font-size: 20px;
 	font-weight: 500;
 	background-color: rgba(255, 255, 255, 0.152);
+}
+
+li:hover {
+	width: 93%;
+	height: 60px;
+	background-color: rgba(252, 252, 252, 0.242);
+}
+
+li:hover p {
+	padding: 16px;
+}
+
+li p {
+	display: block;
+	padding: 14px;
+	pointer-events: none;
 }
 
 li span {
@@ -122,22 +141,6 @@ li span {
 	background-color: #ffffff13;
 }
 
-/* button {
-	background-color: #011627;
-	font-size: 16px;
-	color: #fdfffc;
-	font-weight: 600;
-} */
-
 button:hover {
 	background-color: rgba(252, 252, 252, 0.242);
-}
-
-li:hover {
-	background-color: rgba(252, 252, 252, 0.242);
-}
-
-li p {
-	padding: 13px;
-	pointer-events: none;
 }

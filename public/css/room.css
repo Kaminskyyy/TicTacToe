@@ -11,7 +11,9 @@ html {
 }
 
 .field {
+	background-color: #fdfffc;
 	display: grid;
+	gap: 3px;
 	grid-template-columns: repeat(3, 150px);
 	grid-template-rows: repeat(3, 150px);
 
@@ -23,5 +25,15 @@ html {
 }
 
 .field button:hover {
-	background-color: #ffffff1f;
+	background-color: #022848;
+}
+
+.cross {
+	background-image: url('../assets/cross.svg');
+	background-size: contain;
+}
+
+.circle {
+	background-image: url('../assets/circle.svg');
+	background-size: contain;
 }

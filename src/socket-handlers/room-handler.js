@@ -44,7 +44,7 @@ module.exports = (io, socket, lobbyNamespace) => {
 			console.log(activeUser.error);
 		}
 		io.to(room.name).emit('game:start');
-		io.to(room.name).emit('game:start-turn', activeUser, room.field);
+		io.to(room.name).emit('game:start-turn', activeUser, room.field.flat());
 	});
 
 	socket.on('game:finish-turn', (turn) => {
@@ -53,11 +53,11 @@ module.exports = (io, socket, lobbyNamespace) => {
 		const res = room.turn(turn);
 
 		if (res.id || res.over) {
-			room.resetGame();
-			return io.to(room.name).emit('game:finish', res);
+			io.to(room.name).emit('game:finish', res, room.field.flat());
+			return room.resetGame();
 		}
 
-		io.to(room.name).emit('game:start-turn', room.active, room.field);
+		io.to(room.name).emit('game:start-turn', room.active, room.field.flat());
 	});
 
 	socket.on('disconnect', () => {
