@@ -1,8 +1,10 @@
 const socket = io('/lobby');
 
 const $usernameForm = document.querySelector('.username-form');
+const $usernameInput = $usernameForm.getElementsByTagName('input')[0];
 const $createRoomForm = document.querySelector('.create-room-form');
 const $roomsList = document.getElementById('rooms');
+const $emptyUsernamePopup = document.getElementsByClassName('empty-username-popup')[0];
 
 // Templates
 const roomsTemplate = document.getElementById('rooms-template').innerHTML;
@@ -39,6 +41,11 @@ $roomsList.addEventListener('click', (event) => {
 function joinRoom(roomName) {
 	const username = new FormData($usernameForm).get('username');
 
+	if (!username) {
+		$emptyUsernamePopup.removeAttribute('hidden');
+		return;
+	}
+
 	socket.emit('check-room', roomName, (result) => {
 		if (result) {
 			window.location = `/room.html?room=${roomName}&username=${username}`;
@@ -47,3 +54,7 @@ function joinRoom(roomName) {
 		alert('No such room or the room is full!');
 	});
 }
+
+$usernameInput.addEventListener('input', (event) => {
+	$emptyUsernamePopup.setAttribute('hidden', 'hidden');
+});

@@ -127,6 +127,12 @@ class Room {
 
 const rooms = new Map();
 
+for (let i = 0; i < 10; i++) {
+	const roomName = 'room-' + i;
+	const room = new Room(roomName);
+	rooms.set(roomName, room);
+}
+
 rooms.public = () => {
 	return Array.from(rooms.values()).map((room) => room.public);
 };

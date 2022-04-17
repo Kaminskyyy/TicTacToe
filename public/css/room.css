@@ -5,9 +5,77 @@ html {
 	height: 100%;
 }
 
-.main-container {
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	height: 15%;
+	min-height: 80px;
+	padding: 20px 0px;
+
+	text-align: center;
+	font-size: 48px;
+	font-weight: 1000;
+}
+
+#turn-label {
+	font-size: 24px;
+	text-align: center;
+}
+
+.center-container {
 	display: grid;
-	grid-template-rows: 5fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.left-sidebar {
+}
+
+.right-sidebar {
+}
+
+.weight {
+	flex-basis: auto;
+	flex-grow: 1;
+}
+
+.stats {
+}
+
+.stats .players-label {
+	margin: 50px auto;
+
+	text-align: left;
+}
+
+li {
+	margin: 30px auto 30px 10px;
+	font-size: 24px;
+}
+
+li::marker {
+	content: '';
+}
+
+li::before {
+	content: '# ';
+	margin: 30px auto 30px 10px;
+}
+
+.stats .buttons {
+	margin: 100px auto 0 10px;
+}
+
+.buttons button {
+	display: block;
+	width: 70%;
+	height: 55px;
+
+	font-size: 24px;
+	margin: 15px auto 15px 10px;
+	border-radius: 30px;
 }
 
 .field {
@@ -17,7 +85,7 @@ html {
 	grid-template-columns: repeat(3, 150px);
 	grid-template-rows: repeat(3, 150px);
 
-	margin: 50px auto;
+	margin: 20px auto;
 }
 
 .field button {
