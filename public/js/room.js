@@ -1,18 +1,16 @@
-// TODO
-// Check cell before make turn
-
 const socket = io('/room');
 
 // Elements
-const $turnForm = document.getElementById('turn-form');
 const $startGameButton = document.getElementById('start-game-btn');
-const $makeTurnButton = document.getElementById('turn-btn');
-const $turnLabel = document.getElementById('turn-label');
 const $leaveRoomButton = document.getElementById('leave-room-btn');
+const $turnLabel = document.getElementById('turn-label');
 const $field = document.getElementsByClassName('cell');
+const $winnerLabel = document.getElementById('winner-label');
+const $endGamePopup = document.getElementById('end-game-popup');
+const $playerJoinedPopup = document.getElementById('player-joined-popup');
+const $playerUsernameLabel = document.getElementById('player-joined-username');
 
 // Templates
-// const infoTemplate = document.getElementById('info-template').innerHTML;
 const playersLabelTemplate = document.getElementById('players-label-template').innerHTML;
 
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -39,7 +37,7 @@ socket.emit('join', username, room, (result) => {
 socket.on('player:join', (data) => {
 	if (gameId === null) {
 		gameId = data.gameId;
-	} else alert(data.username + ' joined!');
+	} else showPlayerJoinedPopup(data.username);
 
 	console.log(data.players);
 	playersNumber = data.players.reduce((num, player) => (player.username ? (num += 1) : num), 0);
@@ -77,12 +75,14 @@ socket.on('game:start', () => {
 
 socket.on('game:finish', (res, field) => {
 	if (res.id === 0) {
-		alert('Draw!');
+		$winnerLabel.innerHTML = 'Draw';
 	} else if (res.id === gameId) {
-		alert('You win!');
+		$winnerLabel.innerHTML = 'You <b>win</b>!';
 	} else {
-		alert('You lose!');
+		$winnerLabel.innerHTML = 'You <b>lose!</b>';
 	}
+
+	showEndGamePopup();
 
 	updateField(field);
 	disableField(true);
@@ -114,6 +114,11 @@ function turn(x, y) {
 }
 
 function updatePlayersTable(players) {
+	players = players.map((player) => {
+		if (!player.username) player.username = '-----';
+		return player;
+	});
+
 	const html = Mustache.render(playersLabelTemplate, {
 		players,
 	});
@@ -159,4 +164,20 @@ function clearField() {
 	for (let cell of $field) {
 		cell.classList.remove('cross', 'circle');
 	}
+}
+
+function showEndGamePopup() {
+	$endGamePopup.classList.remove('hide');
+	setTimeout(() => {
+		$endGamePopup.classList.add('hide');
+	}, 3000);
+}
+
+function showPlayerJoinedPopup(username) {
+	$playerUsernameLabel.innerHTML = username + ' joined!';
+
+	$playerJoinedPopup.classList.remove('hide');
+	setTimeout(() => {
+		$playerJoinedPopup.classList.add('hide');
+	}, 3000);
 }

@@ -1,11 +1,13 @@
 html {
 	background-color: #011627;
 	font-family: 'Playfair Display', serif;
-	color: #fdfffc;
+	color: antiquewhite;
 	height: 100%;
 }
 
 body {
+	min-width: 1000px;
+
 	display: flex;
 	flex-direction: column;
 }
@@ -28,6 +30,8 @@ header {
 .center-container {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
+
+	margin: 40px 0 0 0;
 }
 
 .left-sidebar {
@@ -51,7 +55,9 @@ header {
 }
 
 li {
-	margin: 30px auto 30px 10px;
+	height: 40px;
+	margin: 30px auto 30px 20px;
+	padding: 6px 0 0 50px;
 	font-size: 24px;
 }
 
@@ -59,9 +65,21 @@ li::marker {
 	content: '';
 }
 
-li::before {
+/* li::before {
 	content: '# ';
 	margin: 30px auto 30px 10px;
+} */
+
+li:first-child {
+	background-image: url('../assets/cross.svg');
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+li:last-child {
+	background-image: url('../assets/circle.svg');
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 .stats .buttons {
@@ -76,10 +94,12 @@ li::before {
 	font-size: 24px;
 	margin: 15px auto 15px 10px;
 	border-radius: 30px;
+
+	background-color: antiquewhite;
 }
 
 .field {
-	background-color: #fdfffc;
+	background-color: antiquewhite;
 	display: grid;
 	gap: 3px;
 	grid-template-columns: repeat(3, 150px);
@@ -104,4 +124,57 @@ li::before {
 .circle {
 	background-image: url('../assets/circle.svg');
 	background-size: contain;
+}
+
+#end-game-popup {
+	width: 50vw;
+	height: 50vh;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	background: rgba(1, 37, 63, 0.821);
+}
+
+.winner-container {
+	margin: auto;
+
+	font-size: 64px;
+}
+
+.hide {
+	visibility: hidden;
+}
+
+#player-joined-popup {
+	width: 300px;
+	height: 100px;
+
+	position: absolute;
+	top: 40px;
+	left: 40px;
+
+	display: flex;
+	justify-content: center;
+
+	border: 2px solid rgb(147, 145, 142);
+	border-radius: 5px;
+
+	box-shadow: 10px 10px 50px -10px black;
+
+	background: rgba(1, 37, 63, 0.821);
+}
+
+#player-joined-username {
+	display: inline-block;
+	margin: auto;
+
+	font-size: 24px;
+	word-spacing: 10px;
 }

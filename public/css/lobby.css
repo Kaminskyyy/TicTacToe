@@ -59,6 +59,8 @@ li {
 	border: 1px solid rgba(255, 255, 255, 0);
 	border-radius: 30px;
 
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.327);
+
 	text-align: left;
 	font-size: 20px;
 	font-weight: 500;
@@ -113,6 +115,8 @@ li span {
 	margin: 50px 20px 0px 20px;
 	padding: 12px 0 0 0;
 
+	box-shadow: 0 0 50px rgb(0, 0, 0);
+
 	text-align: center;
 	font-size: 24px;
 
@@ -126,6 +130,7 @@ li span {
 	border-radius: 0px 0px 55px 55px;
 
 	margin: 0px 20px 20px 20px;
+	box-shadow: 0 0 50px rgb(0, 0, 0);
 
 	font-size: 16px;
 	text-align: center;
@@ -141,6 +146,8 @@ li span {
 
 	margin: 50px 20px 0px 20px;
 
+	box-shadow: 0 0 50px rgb(0, 0, 0);
+
 	font-size: 16px;
 	text-align: center;
 	background-color: antiquewhite;
@@ -155,6 +162,8 @@ li span {
 
 	margin: 0px 20px 20px 20px;
 	padding: 0 0 6px 0;
+
+	box-shadow: 0 0 50px rgb(0, 0, 0);
 
 	font-size: 24px;
 	color: antiquewhite;
