@@ -45,7 +45,7 @@ body {
 .rooms-container h2 {
 	font-size: 32px;
 	text-align: center;
-	margin: 10px auto 30px;
+	margin: 20px auto;
 }
 
 li {
@@ -182,7 +182,7 @@ footer {
 }
 
 .empty-username-popup {
-	width: 60%;
+	width: 250px;
 	height: 30%;
 
 	position: absolute;
@@ -190,6 +190,7 @@ footer {
 	top: 115px;
 	left: 40px;
 
+	margin: 0 auto;
 	padding: 5px;
 
 	border: 2px solid red;

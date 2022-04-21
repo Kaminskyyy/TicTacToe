@@ -20,8 +20,16 @@ class User {
 		this._socketId = id;
 	}
 
+	set roomName(room) {
+		this._roomName = room?.trim().toLowerCase();
+	}
+
+	get roomName() {
+		return this._roomName;
+	}
+
 	set room(room) {
-		this._room = room?.trim().toLowerCase();
+		this._room = room;
 	}
 
 	get room() {

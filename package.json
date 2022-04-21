@@ -5,12 +5,21 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node src/index.js",
-		"dev": "nodemon src/index.js -e js,html,css"
+		"dev": "nodemon src/index.js -e js,html,css",
+		"test": "jest"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"express": "^4.17.3",
 		"socket.io": "^4.4.1"
+	},
+	"devDependencies": {
+		"jest": "^27.5.1"
+	},
+	"jest": {
+		"roots": [
+			"<rootDir>/tests/"
+		]
 	}
 }

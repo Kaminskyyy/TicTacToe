@@ -3,3 +3,6 @@ node_modules/
 .jshintrc
 public/html/
 public/css/style.css
+playground/
+public/js/test.js
+tests/

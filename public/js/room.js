@@ -20,7 +20,6 @@ document.getElementById('room-name').innerHTML = room;
 $turnLabel.innerHTML = 'Waiting to start game...';
 
 let gameId = null;
-//let miniIconSrc = null;
 let playersNumber = 0;
 let isGameOn = false;
 let fieldCells = null;
@@ -49,6 +48,8 @@ socket.on('player:join', (data) => {
 
 socket.on('player:leave', (players) => {
 	playersNumber -= 1;
+
+	gameId = 1;
 	updatePlayersTable(players);
 	resetGame();
 });
@@ -73,7 +74,7 @@ socket.on('game:start', () => {
 	updateStartGameButton();
 });
 
-socket.on('game:finish', (res, field) => {
+socket.on('game:finish', (res, field, players) => {
 	if (res.id === 0) {
 		$winnerLabel.innerHTML = 'Draw';
 	} else if (res.id === gameId) {
@@ -88,6 +89,8 @@ socket.on('game:finish', (res, field) => {
 	disableField(true);
 	setTimeout(() => {
 		resetGame();
+		gameId = 3 - gameId;
+		updatePlayersTable(players);
 	}, 3000);
 });
 
@@ -114,10 +117,7 @@ function turn(x, y) {
 }
 
 function updatePlayersTable(players) {
-	players = players.map((player) => {
-		if (!player.username) player.username = '-----';
-		return player;
-	});
+	if (players.length == 1) players = players.concat([{ username: '-----' }]);
 
 	const html = Mustache.render(playersLabelTemplate, {
 		players,

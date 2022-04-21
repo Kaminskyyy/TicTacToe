@@ -39,7 +39,7 @@ $roomsList.addEventListener('click', (event) => {
 });
 
 function joinRoom(roomName) {
-	const username = new FormData($usernameForm).get('username');
+	const username = validateUsername(new FormData($usernameForm).get('username'));
 
 	if (!username) {
 		$emptyUsernamePopup.removeAttribute('hidden');
@@ -58,3 +58,15 @@ function joinRoom(roomName) {
 $usernameInput.addEventListener('input', (event) => {
 	$emptyUsernamePopup.setAttribute('hidden', 'hidden');
 });
+
+function validateUsername(username) {
+	username = username.trim();
+
+	const isValid = validator.isAlphanumeric(username, 'en-US', { ignore: '-_' });
+
+	if (username.length < 5 || username.length > 21 || !isValid) {
+		return undefined;
+	}
+
+	return username;
+}
