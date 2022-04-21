@@ -3,8 +3,10 @@ const socket = io('/lobby');
 const $usernameForm = document.querySelector('.username-form');
 const $usernameInput = $usernameForm.getElementsByTagName('input')[0];
 const $createRoomForm = document.querySelector('.create-room-form');
+const $createRoomInput = $createRoomForm.getElementsByTagName('input')[0];
 const $roomsList = document.getElementById('rooms');
-const $emptyUsernamePopup = document.getElementsByClassName('empty-username-popup')[0];
+const $invalidUsernamePopup = document.getElementsByClassName('username-popup')[0];
+const $invalidRoomNamePopup = document.getElementsByClassName('room-name-popup')[0];
 
 // Templates
 const roomsTemplate = document.getElementById('rooms-template').innerHTML;
@@ -20,7 +22,12 @@ socket.on('update:rooms', (rooms) => {
 $createRoomForm.addEventListener('submit', async (event) => {
 	event.preventDefault();
 
-	const roomName = new FormData($createRoomForm).get('room');
+	const roomName = validateName(new FormData($createRoomForm).get('room'));
+
+	if (!roomName) {
+		$invalidRoomNamePopup.removeAttribute('hidden');
+		return;
+	}
 
 	socket.emit('create:room', roomName, (result) => {
 		if (result.error) {
@@ -39,10 +46,10 @@ $roomsList.addEventListener('click', (event) => {
 });
 
 function joinRoom(roomName) {
-	const username = validateUsername(new FormData($usernameForm).get('username'));
+	const username = validateName(new FormData($usernameForm).get('username'));
 
 	if (!username) {
-		$emptyUsernamePopup.removeAttribute('hidden');
+		$invalidUsernamePopup.removeAttribute('hidden');
 		return;
 	}
 
@@ -56,17 +63,21 @@ function joinRoom(roomName) {
 }
 
 $usernameInput.addEventListener('input', (event) => {
-	$emptyUsernamePopup.setAttribute('hidden', 'hidden');
+	$invalidUsernamePopup.setAttribute('hidden', 'hidden');
 });
 
-function validateUsername(username) {
-	username = username.trim();
+$createRoomInput.addEventListener('input', (event) => {
+	$invalidRoomNamePopup.setAttribute('hidden', 'hidden');
+});
 
-	const isValid = validator.isAlphanumeric(username, 'en-US', { ignore: '-_' });
+function validateName(input) {
+	input = input.trim();
 
-	if (username.length < 5 || username.length > 21 || !isValid) {
+	const isValid = validator.isAlphanumeric(input, 'en-US', { ignore: '-_' });
+
+	if (input.length < 5 || input.length > 21 || !isValid) {
 		return undefined;
 	}
 
-	return username;
+	return input;
 }

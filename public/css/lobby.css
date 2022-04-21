@@ -181,14 +181,12 @@ footer {
 	border-top: antiquewhite solid 3px;
 }
 
-.empty-username-popup {
+.invalid-popup {
 	width: 250px;
-	height: 30%;
+	height: 35px;
 
 	position: absolute;
 	z-index: 1;
-	top: 115px;
-	left: 40px;
 
 	margin: 0 auto;
 	padding: 5px;
@@ -198,7 +196,16 @@ footer {
 
 	color: white;
 	font-size: 16px;
-	text-decoration: underline;
 	text-align: center;
 	background-color: rgba(255, 255, 255, 0.34);
+}
+
+.username-popup {
+	top: 115px;
+	left: 40px;
+}
+
+.room-name-popup {
+	top: 425px;
+	left: 40px;
 }

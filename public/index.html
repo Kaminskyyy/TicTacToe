@@ -18,12 +18,13 @@
 				<form class="username-form">
 					<h3>Username</h3>
 					<input id="username-input" type="text" name="username" placeholder="Username" required />
-					<div class="empty-username-popup" hidden>Invalid username!</div>
+					<div class="invalid-popup username-popup" hidden>Invalid username!</div>
 				</form>
 
 				<form class="create-room-form">
 					<input id="create-room-input" type="text" name="room" placeholder="Room" required autocomplete="off" />
 					<button>Create room</button>
+					<div class="invalid-popup room-name-popup" hidden>Invalid room name!</div>
 				</form>
 			</div>
 
