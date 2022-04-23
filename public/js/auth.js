@@ -29,8 +29,6 @@ $loginButton.addEventListener('click', async (event) => {
 		password: form.get('password'),
 	};
 
-	return;
-
 	try {
 		const response = await fetch('/users/`login', {
 			method: 'POST',
@@ -64,10 +62,6 @@ $signUpButton.addEventListener('click', async (event) => {
 		password: form.get('password'),
 	};
 
-	console.log(body);
-
-	return;
-
 	try {
 		const response = await fetch('/users', {
 			method: 'POST',
@@ -79,7 +73,9 @@ $signUpButton.addEventListener('click', async (event) => {
 
 		if (!response.ok) throw new Error(response.status);
 
-		const body = await response.json();
+		const resBody = await response.json();
+
+		console.log(resBody);
 
 		// REDIRECT TO LOBBY
 	} catch (error) {
