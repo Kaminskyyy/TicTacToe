@@ -26,9 +26,9 @@ let fieldCells = null;
 
 disableField(true);
 
-socket.emit('join', username, room, (result) => {
-	if (result.error) {
-		alert(result.error);
+socket.emit('join', username, room, (error) => {
+	if (error) {
+		alert(error);
 		window.location = '/';
 	}
 });
@@ -39,7 +39,7 @@ socket.on('player:join', (data) => {
 	} else showPlayerJoinedPopup(data.username);
 
 	console.log(data.players);
-	playersNumber = data.players.reduce((num, player) => (player.username ? (num += 1) : num), 0);
+	playersNumber = data.players.length;
 	updatePlayersTable(data.players);
 	updateStartGameButton();
 

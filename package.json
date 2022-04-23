@@ -12,7 +12,8 @@
 	"license": "ISC",
 	"dependencies": {
 		"express": "^4.17.3",
-		"socket.io": "^4.4.1"
+		"socket.io": "^4.4.1",
+		"yargs": "^17.4.1"
 	},
 	"devDependencies": {
 		"jest": "^27.5.1"

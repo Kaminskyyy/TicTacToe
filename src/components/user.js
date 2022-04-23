@@ -42,12 +42,12 @@ class User {
 		};
 	}
 
-	getUser() {
+	devInfo() {
 		return {
-			username: this.username,
-			originalUsername: this.originalUsername,
-			gameId: this.gameId,
-			socketId: this.socketId,
+			username: this._username,
+			socketId: this._socketId,
+			roomName: this._roomName,
+			room: this._room,
 		};
 	}
 }
@@ -75,6 +75,13 @@ class Users extends Map {
 		super.set(key, value);
 		return value;
 	}
+
+	devInfo() {
+		const users = Array.from(this.values());
+		return users.map((user) => user.devInfo());
+	}
 }
 
-module.exports = { User, Users };
+const users = new Users();
+
+module.exports = { User, users };

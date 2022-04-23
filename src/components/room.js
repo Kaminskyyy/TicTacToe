@@ -108,19 +108,36 @@ class Room {
 	}
 
 	resetGame() {
+		this._activePlayer = null;
 		this._started = false;
 		this._gameOver = false;
 		this._field.resetField();
+	}
+
+	devInfo() {
+		return {
+			name: this._name,
+			field: this._field.devInfo(),
+			started: this._started,
+			gameOver: this._gameOver,
+			active: this._activePlayer,
+			plOne: this._players[0]?.devInfo(),
+			plTwo: this._players[1]?.devInfo(),
+		};
 	}
 }
 
 const rooms = new Map();
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 4; i++) {
 	const roomName = 'room-' + i;
 	const room = new Room(roomName);
 	rooms.set(roomName, room);
 }
+
+rooms.devInfo = () => {
+	return Array.from(rooms.values()).map((room) => room.devInfo());
+};
 
 rooms.public = () => {
 	return Array.from(rooms.values()).map((room) => room.public);

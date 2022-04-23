@@ -65,6 +65,10 @@ class Field {
 			[0, 0, 0],
 		];
 	}
+
+	devInfo() {
+		return this._field.flat();
+	}
 }
 
 module.exports = { Field };

@@ -2,6 +2,8 @@ const { Server } = require('socket.io');
 const express = require('express');
 const http = require('http');
 
+require('./admin/commands.js');
+
 // Socket
 const registerRoomHandlers = require('./socket-handlers/room-handlers.js');
 const registerLobbyHandlers = require('./socket-handlers/lobby-handlers.js');

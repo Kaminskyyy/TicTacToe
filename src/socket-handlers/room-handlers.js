@@ -1,12 +1,5 @@
-const { User, Users } = require('../components/user.js');
+const { User, users } = require('../components/user.js');
 const { rooms } = require('../components/room.js');
-
-// Key - socket-id
-// Value - room
-const roomsBySocketId = new Map();
-
-//
-const users = new Users();
 
 module.exports = (io, socket, lobbyNamespace) => {
 	socket.on('join', (username, roomName, callback) => {
@@ -20,7 +13,6 @@ module.exports = (io, socket, lobbyNamespace) => {
 
 			const player = room.addPlayer(user);
 
-			roomsBySocketId.set(socket.id, room);
 			socket.join(room.name);
 
 			io.to(room.name).emit('player:join', {
@@ -30,8 +22,9 @@ module.exports = (io, socket, lobbyNamespace) => {
 			});
 
 			lobbyNamespace.emit('update:rooms', rooms.public());
+			callback();
 		} catch (error) {
-			return callback(user.error);
+			return callback(error);
 		}
 	});
 
@@ -39,7 +32,6 @@ module.exports = (io, socket, lobbyNamespace) => {
 		try {
 			const room = users.get(socket.id).room;
 
-			//const room = roomsBySocketId.get(socket.id);
 			if (!room) throw new Error('NO ROOM');
 
 			const activeUser = room.startGame();
