@@ -65,11 +65,6 @@ li::marker {
 	content: '';
 }
 
-/* li::before {
-	content: '# ';
-	margin: 30px auto 30px 10px;
-} */
-
 li:first-child {
 	background-image: url('../assets/cross.svg');
 	background-size: contain;
