@@ -20,17 +20,10 @@ const $signUpButton = document.getElementsByClassName('sign-up-btn')[0];
 $loginButton.addEventListener('click', async (event) => {
 	event.preventDefault();
 
-	const form = new FormData($mainForm);
-
-	//	VALIDATE USER INPUT
-
-	const body = {
-		email: form.get('email'),
-		password: form.get('password'),
-	};
-
 	try {
-		const response = await fetch('/users/`login', {
+		const body = validateLoginData(new FormData($mainForm));
+
+		const response = await fetch('/users/login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json;charset=utf-8',
@@ -40,9 +33,10 @@ $loginButton.addEventListener('click', async (event) => {
 
 		if (!response.ok) throw new Error(response.status);
 
-		const body = await response.json();
+		const responseBody = await response.json();
 
-		// REDIRECT TO LOBBY
+		//	TODO
+		// 	REDIRECT TO LOBBY
 		//
 	} catch (error) {
 		console.log('Error: ' + error);
@@ -52,17 +46,9 @@ $loginButton.addEventListener('click', async (event) => {
 $signUpButton.addEventListener('click', async (event) => {
 	event.preventDefault();
 
-	const form = new FormData($mainForm);
-
-	// VALIDATE USER INPUT
-
-	const body = {
-		username: form.get('username'),
-		email: form.get('email'),
-		password: form.get('password'),
-	};
-
 	try {
+		const body = validateSignUpData(new FormData($mainForm));
+
 		const response = await fetch('/users', {
 			method: 'POST',
 			headers: {
@@ -73,11 +59,11 @@ $signUpButton.addEventListener('click', async (event) => {
 
 		if (!response.ok) throw new Error(response.status);
 
-		const resBody = await response.json();
+		const responseBody = await response.json();
 
-		console.log(resBody);
-
-		// REDIRECT TO LOBBY
+		//	TODO
+		// 	REDIRECT TO LOBBY
+		//
 	} catch (error) {
 		console.log('Error: ' + error);
 	}
@@ -104,4 +90,39 @@ function registrationMode(state) {
 
 	if (state) $loginButtons.classList.add('hide');
 	else $loginButtons.classList.remove('hide');
+}
+
+function validateLoginData(form) {
+	const emailOrUsername = form.get('email').trim();
+	const password = form.get('password').trim();
+
+	if (emailOrUsername.length < 4) throw new Error('Invalid username or email');
+	if (password.length < 6) throw new Error('Invalid password');
+
+	return {
+		email_or_username: emailOrUsername,
+		password,
+	};
+}
+
+function validateSignUpData(form) {
+	const username = form.get('username').trim();
+	const email = form.get('email').trim().toLowerCase();
+	const password = form.get('password').trim();
+	const confirmPassword = form.get('confirm-password').trim();
+
+	if (!validator.isAlphanumeric(username, 'en-US', { ignore: '-_' })) throw new Error('Username must contain only A-z, 0-9 and _-!');
+	if (username.length < 4 || username.length > 20) throw new Error('Min length: 4, max: 20');
+
+	if (!validator.isEmail(email)) throw new Error('Invalid email');
+
+	if (password !== confirmPassword) throw new Error('Passwords must match');
+
+	if (password.length < 6) throw new Error('Password is too short');
+
+	return {
+		username,
+		email,
+		password,
+	};
 }

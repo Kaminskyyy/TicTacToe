@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/games-app').catch((error) => {
-	//  TODO
-	//	HANDLE ERRORS
-	//
-	console.log(error);
-});
+mongoose.connect('mongodb://127.0.0.1:27017/games-app')
+	.catch((error) => {
+		//  TODO
+		//	HANDLE ERRORS
+		//
+		console.log(error);
+	});
 
 mongoose.connection.on('connected', () => {
 	console.log('DB connected');

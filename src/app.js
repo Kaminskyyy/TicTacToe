@@ -33,4 +33,4 @@ lobbyNamespace.on('connection', (socket) => {
 	registerLobbyHandlers(lobbyNamespace, socket);
 });
 
-module.exports = { server };
+module.exports = server;
