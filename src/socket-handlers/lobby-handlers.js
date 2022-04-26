@@ -22,7 +22,7 @@ module.exports = (io, socket) => {
 
 		if (!room || room.getPlayersNum() === 2) {
 			return callback(false);
-		} 
+		}
 		callback(true);
 	});
 

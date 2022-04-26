@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tic Tac Toe</title>
+		<link rel="stylesheet" href="./css/auth.css" />
+	</head>
+	<body>
+		<form class="main-form">
+			<div class="username hide">
+				<p>Username</p>
+				<input name="username" type="text" />
+			</div>
+			<div class="email">
+				<p>Email</p>
+				<input name="email" type="text" />
+			</div>
+			<div class="password">
+				<p>Password</p>
+				<input name="password" type="password" />
+			</div>
+			<div class="confirm-password hide">
+				<p>Confirm password</p>
+				<input name="confirm-password" type="password" />
+			</div>
+		</form>
+		<div class="login-buttons">
+			<button class="login-btn">login</button>
+			<button class="enable-registration-btn">Sign up</button>
+		</div>
+		<div class="sign-up-buttons hide">
+			<button class="back-to-login-btn">Back to login</button>
+			<button class="sign-up-btn">Sign up</button>
+		</div>
+		<script defer src="https://unpkg.com/validator@latest/validator.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+		<script defer src="./js/auth.js"></script>
+	</body>
+</html>
