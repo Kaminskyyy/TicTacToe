@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node src/index.js",
 		"dev": "nodemon src/index.js -e js,html,css",
-		"test": "jest --runInBand --forceExit"
+		"test": "jest --runInBand --forceExit --watch"
 	},
 	"author": "",
 	"license": "ISC",

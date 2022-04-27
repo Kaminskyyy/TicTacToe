@@ -35,9 +35,9 @@ $loginButton.addEventListener('click', async (event) => {
 
 		const responseBody = await response.json();
 
-		//	TODO
-		// 	REDIRECT TO LOBBY
-		//
+		console.log(responseBody);
+
+		window.location = '/index.html';
 	} catch (error) {
 		console.log('Error: ' + error);
 	}
@@ -61,9 +61,9 @@ $signUpButton.addEventListener('click', async (event) => {
 
 		const responseBody = await response.json();
 
-		//	TODO
-		// 	REDIRECT TO LOBBY
-		//
+		console.log(responseBody);
+
+		window.location = '/index.html';
 	} catch (error) {
 		console.log('Error: ' + error);
 	}
@@ -72,11 +72,15 @@ $signUpButton.addEventListener('click', async (event) => {
 $enableRegistrationButton.addEventListener('click', (event) => {
 	event.preventDefault();
 
+	console.log(Cookies.get('bearer'));
+
 	registrationMode(true);
 });
 
 $backToLoginButton.addEventListener('click', (event) => {
 	event.preventDefault();
+
+	console.log(Cookies.get('bearer'));
 
 	registrationMode(false);
 });

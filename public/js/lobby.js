@@ -1,4 +1,13 @@
-const socket = io('/lobby');
+const socket = io('/lobby', {
+	auth: {
+		bearer: Cookies.get('bearer'),
+	},
+});
+
+socket.on('connect_error', (error) => {
+	alert(error);
+	window.location = '/auth.html';
+});
 
 const $usernameForm = document.querySelector('.username-form');
 const $usernameInput = $usernameForm.getElementsByTagName('input')[0];
@@ -11,7 +20,7 @@ const $invalidRoomNamePopup = document.getElementsByClassName('room-name-popup')
 // Templates
 const roomsTemplate = document.getElementById('rooms-template').innerHTML;
 
-socket.on('update:rooms', (rooms) => {
+socket.on('rooms:update', (rooms) => {
 	const html = Mustache.render(roomsTemplate, {
 		rooms,
 	});
@@ -29,7 +38,7 @@ $createRoomForm.addEventListener('submit', async (event) => {
 		return;
 	}
 
-	socket.emit('create:room', roomName, (result) => {
+	socket.emit('rooms:create', roomName, (result) => {
 		if (result.error) {
 			return alert(result.error);
 		}
@@ -53,8 +62,9 @@ function joinRoom(roomName) {
 		return;
 	}
 
-	socket.emit('check-room', roomName, (result) => {
+	socket.emit('rooms:join', roomName, (result) => {
 		if (result) {
+			socket.close();
 			window.location = `/room.html?room=${roomName}&username=${username}`;
 			return;
 		}

@@ -1,9 +1,10 @@
 const { Room, rooms } = require('../components/room.js');
+const { User } = require('../components/user.js');
 
 module.exports = (io, socket) => {
-	socket.emit('update:rooms', rooms.public());
+	socket.emit('rooms:update', rooms.public());
 
-	socket.on('create:room', (roomName, callback) => {
+	socket.on('rooms:create', (roomName, callback) => {
 		roomName = roomName.trim().toLowerCase();
 
 		if (rooms.has(roomName)) {
@@ -13,20 +14,23 @@ module.exports = (io, socket) => {
 		const room = new Room(roomName);
 		rooms.set(roomName, room);
 
-		io.emit('update:rooms', rooms.public());
+		io.emit('rooms:update', rooms.public());
 		callback(room.public);
 	});
 
-	socket.on('check-room', (roomName, callback) => {
+	socket.on('rooms:join', (roomName, callback) => {
 		const room = rooms.get(roomName.trim().toLowerCase());
 
 		if (!room || room.getPlayersNum() === 2) {
 			return callback(false);
-		} 
+		}
 		callback(true);
 	});
 
 	socket.on('disconnect', (reason) => {
+		if (reason === 'transport close') {
+			User.users.delete(socket.handshake.bearer);
+		}
 		console.log('LOBBY DISCONNNECT', reason);
 	});
 };

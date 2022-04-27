@@ -4,6 +4,8 @@ const { rooms } = require('../components/room.js');
 module.exports = (io, socket, lobbyNamespace) => {
 	socket.on('join', (username, roomName, callback) => {
 		try {
+			console.log('JOINED');
+
 			const room = rooms.get(roomName.trim().toLowerCase());
 
 			if (!room) throw new Error('No such room');
@@ -21,7 +23,7 @@ module.exports = (io, socket, lobbyNamespace) => {
 				players: room.getPlayers(),
 			});
 
-			lobbyNamespace.emit('update:rooms', rooms.public());
+			lobbyNamespace.emit('rooms:update', rooms.public());
 			callback();
 		} catch (error) {
 			return callback(error);
@@ -69,7 +71,7 @@ module.exports = (io, socket, lobbyNamespace) => {
 			users.delete(socket.id);
 
 			io.to(room.name).emit('player:leave', room.getPlayers());
-			lobbyNamespace.emit('update:rooms', rooms.public());
+			lobbyNamespace.emit('rooms:update', rooms.public());
 		} catch (error) {
 			console.log(error);
 		}

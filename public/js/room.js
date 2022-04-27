@@ -1,4 +1,14 @@
-const socket = io('/room');
+const socket = io('/room', {
+	auth: {
+		bearer: Cookies.get('bearer'),
+	},
+});
+
+socket.on('connect_error', (error) => {
+	alert(error.message);
+
+	window.location = '/auth.html';
+});
 
 // Elements
 const $startGameButton = document.getElementById('start-game-btn');

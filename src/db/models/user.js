@@ -85,8 +85,6 @@ userSchema.method('createBearer', async function () {
 	const bearer = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 	user.tokens.push({ token: bearer });
 
-	console.log(user.toString());
-
 	await user.save();
 
 	return bearer;
@@ -94,4 +92,4 @@ userSchema.method('createBearer', async function () {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = { User };
