@@ -37,6 +37,8 @@ $loginButton.addEventListener('click', async (event) => {
 
 		console.log(responseBody);
 
+		sessionStorage.setItem('bearer', responseBody.bearer);
+
 		window.location = '/index.html';
 	} catch (error) {
 		console.log('Error: ' + error);
@@ -61,6 +63,8 @@ $signUpButton.addEventListener('click', async (event) => {
 
 		const responseBody = await response.json();
 
+		sessionStorage.setItem('bearer', responseBody.bearer);
+
 		console.log(responseBody);
 
 		window.location = '/index.html';
@@ -72,7 +76,7 @@ $signUpButton.addEventListener('click', async (event) => {
 $enableRegistrationButton.addEventListener('click', (event) => {
 	event.preventDefault();
 
-	console.log(Cookies.get('bearer'));
+	console.log(sessionStorage.getItem('bearer'));
 
 	registrationMode(true);
 });
@@ -80,7 +84,7 @@ $enableRegistrationButton.addEventListener('click', (event) => {
 $backToLoginButton.addEventListener('click', (event) => {
 	event.preventDefault();
 
-	console.log(Cookies.get('bearer'));
+	console.log(sessionStorage.getItem('bearer'));
 
 	registrationMode(false);
 });

@@ -1,5 +1,6 @@
 const { Room, rooms } = require('../components/room.js');
 const { User } = require('../components/user.js');
+const db = require('../db/models/user.js');
 
 module.exports = (io, socket) => {
 	socket.emit('rooms:update', rooms.public());
@@ -27,10 +28,13 @@ module.exports = (io, socket) => {
 		callback(true);
 	});
 
-	socket.on('disconnect', (reason) => {
-		if (reason === 'transport close') {
-			User.users.delete(socket.handshake.bearer);
+	socket.on('disconnect', async (reason) => {
+		if (reason !== 'client namespace disconnect') {
+			const dbid = User.users.get(socket.handshake.auth.bearer).dbid;
+			const user = await db.User.findById(dbid);
+
+			await user.deleteBearer(socket.handshake.auth.bearer);
+			User.users.delete(socket.handshake.auth.bearer);
 		}
-		console.log('LOBBY DISCONNNECT', reason);
 	});
 };

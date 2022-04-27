@@ -56,9 +56,6 @@ class Room {
 	addPlayer(player) {
 		if (this._players.length === 2) throw new Error('The room is full');
 
-		player.room = this;
-		player.roomName = this.name;
-
 		this._players.push(player);
 		return { player, gameId: this.getGameId(player) };
 	}

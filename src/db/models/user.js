@@ -90,6 +90,14 @@ userSchema.method('createBearer', async function () {
 	return bearer;
 });
 
+userSchema.method('deleteBearer', async function (bearer) {
+	const user = this;
+
+	user.tokens = user.tokens.filter((token) => token.token !== bearer);
+
+	await user.save();
+});
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = { User };

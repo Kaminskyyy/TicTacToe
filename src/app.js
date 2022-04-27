@@ -3,13 +3,16 @@ const { Server } = require('socket.io');
 const express = require('express');
 const http = require('http');
 
+//	Admin commands
+require('./admin/commands.js');
+
 //	Routers
 const userRouter = require('./routers/user.js');
 
 // 	Socket
 const registerRoomHandlers = require('./socket-handlers/room-handlers.js');
 const registerLobbyHandlers = require('./socket-handlers/lobby-handlers.js');
-const { authentication } = require('./middleware/socket/auth.js');
+const { lobbyAuth, roomAuth } = require('./middleware/socket/auth.js');
 
 //	Database
 require('./db/mongoose.js');
@@ -27,8 +30,8 @@ app.use(userRouter);
 const lobbyNamespace = io.of('/lobby');
 const roomNamespace = io.of('/room');
 
-lobbyNamespace.use(authentication);
-roomNamespace.use(authentication);
+lobbyNamespace.use(lobbyAuth);
+roomNamespace.use(roomAuth);
 
 roomNamespace.on('connection', (socket) => {
 	registerRoomHandlers(roomNamespace, socket, lobbyNamespace);

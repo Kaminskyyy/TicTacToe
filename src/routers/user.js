@@ -1,16 +1,18 @@
 const { Router } = require('express');
-//const User = require('../db/models/user.js');
-const { User } = require('../components/user.js');
+const { User } = require('../db/models/user.js');
+const componets = require('../components/user.js');
 
 const router = new Router();
 
 router.post('/users', async (req, res) => {
 	try {
-		const { user, bearer } = await User.create(req.body);
+		const user = new User({
+			...req.body,
+		});
+		const bearer = await user.createBearer();
 
-		res.cookie('bearer', bearer, { path: '/' });
+		user.save();
 		res.send({ user, bearer });
-		console.log(User.users);
 	} catch (error) {
 		console.log(error);
 		res.status(400).send({ error });
@@ -19,15 +21,18 @@ router.post('/users', async (req, res) => {
 
 router.post('/users/login', async (req, res) => {
 	try {
-		const { user, bearer } = await User.findByCredentials(req.body.email_or_username, req.body.password);
+		const user = await User.findByCredentials(req.body.email_or_username, req.body.password);
 
-		res.cookie('bearer', bearer, { path: '/' });
+		if (componets.User.users.findByDBid(user._id.toString())) {
+			return res.status(409).send({ error: 'Session is already running on this account' });
+		}
+
+		const bearer = await user.createBearer();
+
+		user.save();
 		res.send({ user, bearer });
-
-		console.log(User.users);
 	} catch (error) {
-		// 	TODO
-		//	Handling different errors
+		console.log(error);
 		res.status(400).send({ error });
 	}
 });

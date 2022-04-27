@@ -1,6 +1,11 @@
+const { room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+
 const socket = io('/room', {
 	auth: {
-		bearer: Cookies.get('bearer'),
+		bearer: sessionStorage.getItem('bearer'),
+	},
+	query: {
+		room: room,
 	},
 });
 
@@ -23,8 +28,6 @@ const $playerUsernameLabel = document.getElementById('player-joined-username');
 // Templates
 const playersLabelTemplate = document.getElementById('players-label-template').innerHTML;
 
-const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
-
 $startGameButton.setAttribute('disabled', 'disabled');
 document.getElementById('room-name').innerHTML = room;
 $turnLabel.innerHTML = 'Waiting to start game...';
@@ -36,24 +39,14 @@ let fieldCells = null;
 
 disableField(true);
 
-socket.emit('join', username, room, (error) => {
-	if (error) {
-		alert(error);
-		window.location = '/';
-	}
-});
-
 socket.on('player:join', (data) => {
 	if (gameId === null) {
 		gameId = data.gameId;
 	} else showPlayerJoinedPopup(data.username);
 
-	console.log(data.players);
 	playersNumber = data.players.length;
 	updatePlayersTable(data.players);
 	updateStartGameButton();
-
-	console.log('players: ' + playersNumber);
 });
 
 socket.on('player:leave', (players) => {

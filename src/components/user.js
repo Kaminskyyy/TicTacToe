@@ -6,21 +6,6 @@ class User {
 		this._username = user.username;
 	}
 
-	static async findByCredentials(emailOrUsername, password) {
-		const userDocument = await db.User.findByCredentials(emailOrUsername, password);
-
-		const user = new User({
-			dbid: userDocument._id,
-			username: userDocument.username,
-		});
-		const bearer = await userDocument.createBearer();
-
-		await userDocument.save();
-		User.users.set(bearer, user);
-
-		return { user, bearer };
-	}
-
 	static async findByToken(id, bearer) {
 		const user = User.users.get(bearer);
 
@@ -28,11 +13,9 @@ class User {
 
 		const userDocument = await db.User.findOne({ _id: id, 'token.tokens': bearer });
 
-		//console.log(userDocument);
-
 		if (userDocument) {
 			const user = new User({
-				dbid: userDocument._id,
+				dbid: userDocument._id.toString(),
 				username: userDocument.username,
 			});
 			User.users.set(bearer, user);
@@ -40,24 +23,7 @@ class User {
 			return { user, bearer };
 		}
 
-		return undefined;
-	}
-
-	static async create(newUser) {
-		const userDocument = new db.User({
-			...newUser,
-		});
-
-		const user = new User({
-			dbid: userDocument._id,
-			username: userDocument.username,
-		});
-		const bearer = await userDocument.createBearer();
-
-		await userDocument.save();
-		User.users.set(bearer, user);
-
-		return { user, bearer };
+		return {};
 	}
 
 	get dbid() {
@@ -80,22 +46,6 @@ class User {
 		this._socketId = id;
 	}
 
-	set roomName(room) {
-		this._roomName = room?.trim().toLowerCase();
-	}
-
-	get roomName() {
-		return this._roomName;
-	}
-
-	set room(room) {
-		this._room = room;
-	}
-
-	get room() {
-		return this._room;
-	}
-
 	getPublic() {
 		return {
 			name: this.originalUsername,
@@ -107,8 +57,6 @@ class User {
 			dbid: this._dbid,
 			username: this._username,
 			socketId: this._socketId,
-			roomName: this._roomName,
-			room: this._room,
 		};
 	}
 }
@@ -121,6 +69,16 @@ class Users extends Map {
 	devInfo() {
 		const users = Array.from(this.values());
 		return users.map((user) => user.devInfo());
+	}
+
+	findByDBid(dbid) {
+		for (let user of this.values()) {
+			console.log(user);
+
+			if (user.dbid === dbid) return user;
+		}
+
+		return undefined;
 	}
 }
 
