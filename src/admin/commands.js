@@ -1,7 +1,7 @@
 const readline = require('readline');
 const yargs = require('yargs');
 const { rooms, Room } = require('../components/room.js');
-const { users } = require('../components/user.js');
+const { User } = require('../components/user.js');
 
 const cl = readline.createInterface({
 	input: process.stdin,
@@ -12,7 +12,7 @@ const cl = readline.createInterface({
 cl.on('line', (line) => {
 	yargs
 		.fail((msg) => {
-			console.log(msg);
+			//console.log(msg);
 		})
 		.parse(line);
 });
@@ -67,7 +67,7 @@ yargs.command(
 
 		switch (argv.operation) {
 			case 'all':
-				console.log(users.devInfo());
+				console.log(User.users);
 
 				break;
 
